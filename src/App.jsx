@@ -93,6 +93,16 @@ const App = () => {
     }
   }
 
+  const handleDelete = async (id) => {
+    try {
+      await blogService.remove(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+      showNotification('blog removed successfully', 'success')
+    } catch (exception) {
+      showNotification('error removing blog', 'error')
+    }
+  }
+
   if (user === null) {
     return (
       <div>
@@ -132,7 +142,13 @@ const App = () => {
       </Togglable>
 
       {[...blogs].sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLike={handleLike}
+          handleDelete={handleDelete}
+          currentUser={user}
+        />
       )}
     </div>
   )
