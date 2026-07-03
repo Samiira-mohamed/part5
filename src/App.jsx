@@ -3,6 +3,23 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+const Notification = ({ message, type }) => {
+  if (message === null) return null
+  return (
+    <div style={{
+      color: type === 'error' ? 'red' : 'green',
+      background: '#eee',
+      fontSize: 16,
+      border: type === 'error' ? '2px solid red' : '2px solid green',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10
+    }}>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
@@ -11,11 +28,17 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [notification, setNotification] = useState(null)
+  const [notificationType, setNotificationType] = useState('success')
+
+  const showNotification = (message, type = 'success') => {
+    setNotification(message)
+    setNotificationType(type)
+    setTimeout(() => setNotification(null), 5000)
+  }
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
+    blogService.getAll().then(blogs => setBlogs(blogs))
   }, [])
 
   useEffect(() => {
@@ -36,8 +59,9 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      showNotification(`Welcome ${user.name}!`, 'success')
     } catch (exception) {
-      console.log('wrong credentials')
+      showNotification('wrong username or password', 'error')
     }
   }
 
@@ -54,8 +78,9 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      showNotification(`a new blog ${title} by ${author} added`, 'success')
     } catch (exception) {
-      console.log('error creating blog', exception)
+      showNotification('error creating blog', 'error')
     }
   }
 
@@ -63,6 +88,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification message={notification} type={notificationType} />
         <form onSubmit={handleLogin}>
           <div>
             username
@@ -89,8 +115,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={notification} type={notificationType} />
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-
       <h2>create new</h2>
       <form onSubmit={handleCreateBlog}>
         <div>
@@ -119,7 +145,6 @@ const App = () => {
         </div>
         <button type="submit">create</button>
       </form>
-
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
