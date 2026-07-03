@@ -61,7 +61,7 @@ const App = () => {
       setUsername('')
       setPassword('')
       showNotification(`Welcome ${user.name}!`, 'success')
-    } catch (exception) {
+    }catch {
       showNotification('wrong username or password', 'error')
     }
   }
@@ -77,7 +77,7 @@ const App = () => {
       setBlogs(blogs.concat(newBlog))
       blogFormRef.current.toggleVisibility()
       showNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`, 'success')
-    } catch (exception) {
+    }catch {
       showNotification('error creating blog', 'error')
     }
   }
@@ -88,7 +88,7 @@ const App = () => {
       setBlogs(blogs.map(blog =>
         blog.id === updatedBlog.id ? { ...updatedBlog, user: blog.user } : blog
       ))
-    } catch (exception) {
+    }catch {
       showNotification('error updating blog', 'error')
     }
   }
@@ -98,7 +98,7 @@ const App = () => {
       await blogService.remove(id)
       setBlogs(blogs.filter(blog => blog.id !== id))
       showNotification('blog removed successfully', 'success')
-    } catch (exception) {
+    }catch {
       showNotification('error removing blog', 'error')
     }
   }
