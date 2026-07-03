@@ -86,7 +86,7 @@ const App = () => {
     try {
       const updatedBlog = await blogService.update(blogToUpdate.id, blogToUpdate)
       setBlogs(blogs.map(blog =>
-        blog.id === updatedBlog.id ? updatedBlog : blog
+        blog.id === updatedBlog.id ? { ...updatedBlog, user: blog.user } : blog
       ))
     } catch (exception) {
       showNotification('error updating blog', 'error')
