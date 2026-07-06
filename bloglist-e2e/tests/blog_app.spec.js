@@ -19,4 +19,21 @@ describe('Blog app', () => {
     await expect(page.locator('input[type="password"]')).toBeVisible()
     await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
   })
+
+  describe('Login', () => {
+    test('succeeds with correct credentials', async ({ page }) => {
+      await page.locator('input[type="text"]').fill('samiira')
+      await page.locator('input[type="password"]').fill('samiira123')
+      await page.getByRole('button', { name: 'login' }).click()
+      await expect(page.getByText('Samiira Mohamed logged in')).toBeVisible()
+    })
+
+    test('fails with wrong credentials', async ({ page }) => {
+      await page.locator('input[type="text"]').fill('samiira')
+      await page.locator('input[type="password"]').fill('wrongpassword')
+      await page.getByRole('button', { name: 'login' }).click()
+      await expect(page.getByText('wrong username or password')).toBeVisible()
+      await expect(page.getByText('Samiira Mohamed logged in')).not.toBeVisible()
+    })
+  })
 })
