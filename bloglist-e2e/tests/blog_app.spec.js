@@ -36,4 +36,21 @@ describe('Blog app', () => {
       await expect(page.getByText('Samiira Mohamed logged in')).not.toBeVisible()
     })
   })
+
+  describe('When logged in', () => {
+    beforeEach(async ({ page }) => {
+      await page.locator('input[type="text"]').fill('samiira')
+      await page.locator('input[type="password"]').fill('samiira123')
+      await page.getByRole('button', { name: 'login' }).click()
+    })
+
+    test('a new blog can be created', async ({ page }) => {
+      await page.getByRole('button', { name: 'create new blog' }).click()
+      await page.locator('input[placeholder="title"]').fill('E2E Test Blog')
+      await page.locator('input[placeholder="author"]').fill('Samiira')
+      await page.locator('input[placeholder="url"]').fill('http://e2etest.com')
+      await page.getByRole('button', { name: 'create' }).click()
+      await expect(page.getByText('E2E Test Blog Samiira')).toBeVisible()
+    })
+  })
 })
