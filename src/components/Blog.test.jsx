@@ -80,6 +80,7 @@ test('clicking like button twice calls event handler twice', async () => {
     }
   }
 
+  
   const mockLike = vi.fn()
 
   render(
