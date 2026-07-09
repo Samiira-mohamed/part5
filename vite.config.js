@@ -15,5 +15,6 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './testSetup.js',
+    exclude: ['bloglist-e2e/**', 'node_modules/**']
   }
 })
