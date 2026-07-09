@@ -4,12 +4,14 @@ const NavBar = ({ user, handleLogout }) => {
   return (
     <nav>
       <Link to="/">blogs</Link> &nbsp;
-      <Link to="/login">login</Link> &nbsp;
-      {user && (
+      {user ? (
         <span>
+          <Link to="/create">create</Link> &nbsp;
           {user.name} logged in
           <button onClick={handleLogout}>logout</button>
         </span>
+      ) : (
+        <Link to="/login">login</Link>
       )}
     </nav>
   )
