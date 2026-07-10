@@ -1,19 +1,33 @@
 import { Link } from 'react-router-dom'
+import { AppBar, Toolbar, Button, Typography } from '@mui/material'
 
 const NavBar = ({ user, handleLogout }) => {
   return (
-    <nav>
-      <Link to="/">blogs</Link> &nbsp;
-      {user ? (
-        <span>
-          <Link to="/create">create</Link> &nbsp;
-          {user.name} logged in
-          <button onClick={handleLogout}>logout</button>
-        </span>
-      ) : (
-        <Link to="/login">login</Link>
-      )}
-    </nav>
+    <AppBar position="static">
+      <Toolbar>
+        <Button color="inherit" component={Link} to="/">
+          blogs
+        </Button>
+        {user ? (
+          <>
+            <Button color="inherit" component={Link} to="/create">
+              create
+            </Button>
+            <Typography sx={{ flexGrow: 1 }} />
+            <Typography color="inherit" sx={{ mr: 2 }}>
+              {user.name} logged in
+            </Typography>
+            <Button color="inherit" onClick={handleLogout}>
+              logout
+            </Button>
+          </>
+        ) : (
+          <Button color="inherit" component={Link} to="/login">
+            login
+          </Button>
+        )}
+      </Toolbar>
+    </AppBar>
   )
 }
 

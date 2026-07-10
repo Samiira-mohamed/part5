@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Alert, Container } from '@mui/material'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import NavBar from './components/NavBar'
@@ -12,17 +13,9 @@ import Togglable from './components/Togglable'
 const Notification = ({ message, type }) => {
   if (message === null) return null
   return (
-    <div style={{
-      color: type === 'error' ? 'red' : 'green',
-      background: '#eee',
-      fontSize: 16,
-      border: type === 'error' ? '2px solid red' : '2px solid green',
-      borderRadius: 5,
-      padding: 10,
-      marginBottom: 10
-    }}>
+    <Alert severity={type === 'error' ? 'error' : 'success'} sx={{ mb: 2 }}>
       {message}
-    </div>
+    </Alert>
   )
 }
 
@@ -105,7 +98,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Container>
       <NavBar user={user} handleLogout={handleLogout} />
       <Notification message={notification} type={notificationType} />
 
@@ -133,7 +126,7 @@ const App = () => {
           user ? <CreateBlog handleCreateBlog={handleCreateBlog} /> : <LoginPage handleLogin={handleLogin} />
         } />
       </Routes>
-    </div>
+    </Container>
   )
 }
 
