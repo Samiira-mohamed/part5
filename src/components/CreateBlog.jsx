@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { TextField, Button, Box, Typography, Paper } from '@mui/material'
 
 const CreateBlog = ({ handleCreateBlog }) => {
   const [title, setTitle] = useState('')
@@ -14,39 +15,45 @@ const CreateBlog = ({ handleCreateBlog }) => {
   }
 
   return (
-    <div>
-      <h2>create new</h2>
-      <form onSubmit={onSubmit}>
-        <div>
-          title:
-          <input
-            type="text"
+    <Box display="flex" justifyContent="center" mt={4}>
+      <Paper elevation={3} sx={{ padding: 4, width: 400 }}>
+        <Typography variant="h5" mb={3}>create new blog</Typography>
+        <Box component="form" onSubmit={onSubmit}>
+          <TextField
+            fullWidth
+            label="title"
             value={title}
             placeholder="title"
             onChange={({ target }) => setTitle(target.value)}
+            margin="normal"
           />
-        </div>
-        <div>
-          author:
-          <input
-            type="text"
+          <TextField
+            fullWidth
+            label="author"
             value={author}
             placeholder="author"
             onChange={({ target }) => setAuthor(target.value)}
+            margin="normal"
           />
-        </div>
-        <div>
-          url:
-          <input
-            type="text"
+          <TextField
+            fullWidth
+            label="url"
             value={url}
             placeholder="url"
             onChange={({ target }) => setUrl(target.value)}
+            margin="normal"
           />
-        </div>
-        <button type="submit">create</button>
-      </form>
-    </div>
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            sx={{ mt: 2 }}
+          >
+            create
+          </Button>
+        </Box>
+      </Paper>
+    </Box>
   )
 }
 
