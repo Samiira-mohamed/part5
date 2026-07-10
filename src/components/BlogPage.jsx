@@ -1,4 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
+import { Box, Typography, Button, Paper, Divider } from '@mui/material'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const BlogPage = ({ blogs, handleLike, handleDelete, currentUser }) => {
   const { id } = useParams()
@@ -22,25 +25,58 @@ const BlogPage = ({ blogs, handleLike, handleDelete, currentUser }) => {
     }
   }
 
-  const showDelete = currentUser && blog.user &&
-    (blog.user.username === currentUser.username ||
-     blog.user === currentUser.username)
+  const blogUsername = blog.user
+    ? (blog.user.username || blog.user)
+    : null
+
+  const showDelete = currentUser && blogUsername &&
+    blogUsername === currentUser.username
+
+  const userName = blog.user
+    ? (blog.user.name || blog.user.username || blog.user)
+    : 'unknown'
 
   return (
-    <div>
-      <h2>{blog.title}</h2>
-      <div>{blog.url}</div>
-      <div>
-        likes {blog.likes}
-        {currentUser && (
-          <button onClick={likeBlog}>like</button>
-        )}
-      </div>
-      <div>added by {blog.user && (blog.user.name || blog.user)}</div>
-      {showDelete && (
-        <button onClick={deleteBlog}>remove</button>
-      )}
-    </div>
+    <Box mt={4}>
+      <Paper elevation={3} sx={{ padding: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          {blog.title}
+        </Typography>
+        <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+          by {blog.author}
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+        <Typography variant="body1" sx={{ mb: 1 }}>
+          <a href={blog.url} target="_blank" rel="noreferrer">{blog.url}</a>
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Added by {userName}
+        </Typography>
+        <Box display="flex" alignItems="center" gap={2}>
+          <Typography variant="h6">{blog.likes} likes</Typography>
+          {currentUser && (
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<ThumbUpIcon />}
+              onClick={likeBlog}
+            >
+              like
+            </Button>
+          )}
+          {showDelete && (
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={deleteBlog}
+            >
+              remove
+            </Button>
+          )}
+        </Box>
+      </Paper>
+    </Box>
   )
 }
 
